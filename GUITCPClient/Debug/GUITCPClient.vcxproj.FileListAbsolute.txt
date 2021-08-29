@@ -1,0 +1,6 @@
+C:\Users\gohome\Desktop\2021년도 3학년 1학기\네트워크프로그래밍\Source\Source(신버전;VC2015~)\Chapter09\GUITCPClient\Debug\GUITCPClient.exe
+C:\Users\gohome\Desktop\2021년도 3학년 1학기\네트워크프로그래밍\Source\Source(신버전;VC2015~)\Chapter09\GUITCPClient\Debug\GUITCPClient.pdb
+C:\Users\gohome\Desktop\GUITCPClient\Debug\GUITCPClient.exe
+C:\Users\gohome\Desktop\GUITCPClient\Debug\GUITCPClient.pdb
+C:\Users\gohome\Desktop\2021년도 3학년 1학기\네트워크프로그래밍\팀플\GUITCPClient\Debug\GUITCPClient.exe
+C:\Users\gohome\Desktop\2021년도 3학년 1학기\네트워크프로그래밍\팀플\GUITCPClient\Debug\GUITCPClient.pdb

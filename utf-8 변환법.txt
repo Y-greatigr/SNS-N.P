@@ -1,0 +1,8 @@
+#include <locale>
+#include <codecvt>
+
+const rapidjson::Value&Value = Doc["function_id"];
+assert(Value.IsArry());
+string jsonString=Value[0].GetString();
+wstring_convert<codecvt_utf8<wchar_t>,<wchar_t> convertString;
+wstring wideString=convertString.from_bytes(jsonString);

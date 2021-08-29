@@ -1,0 +1,125 @@
+<회원가입>
+client -> server json file
+{
+	'function_id' : 1,
+	'user_id' : 'string',
+	'user_pw' : 'string'
+}
+
+server -> client json file
+{
+	'status_code' : -1 or 1 (1이면 성공, -1이면 실패),
+	'text' : status_code가 1일 경우, 성공 문장, 실패 문장
+}
+
+-1이면 'status_code'와 'error'만 가지고, 
+1이면 'status_code'와 'success'만 가진다.
+
+
+<로그인>
+client -> server json file
+{
+	'function_id' : 2
+	'user_id' : 'string',
+	'user_pw' : 'string'
+}
+
+
+server -> client json file
+1) 로그인이 성공했을 때
+{
+	'status_code' : 1,
+	'user_id' : 'string'
+}
+
+2) 로그인이 실패했을 때
+{
+	'status_code' : -1,
+	'error' : "계정이 없거나 비밀번호가 틀렸습니다. 다시 확인해주세요."
+}
+
+
+<게시물 확인> 
+client -> server json file
+{
+	'function_id' : 3,
+	'user_id' : 'string'
+}
+
+자신 ID -> 친구 ID 탐색 -> 친구가 포스팅했던 글 모두 모아 반환
+
+server -> client json file
+{
+	'status_code' : 1,
+	'writers' : 배열
+	'texts': 배열
+}
+
+server -> client json file
+{
+	'status_code' : -1,
+	'error': '자신 혹은 친구가 작성한 글이 없습니다'
+}
+
+<게시물 업로드>
+client -> server json file
+{
+	'function_id' : 4,
+	'user_id' : 'string',
+	'text' : 'string'
+}
+
+server -> client json file
+{
+	'status_code' : 1
+}
+
+
+server -> client json file
+{
+	'status_code' : -1,
+	'error': '게시물 업로드에 실패했습니다.'
+}
+
+<팔로우>
+client -> server json file
+{
+	'function_id' : 5,
+	'user_id' : 'string',
+	'follow_id' : 'string',
+}
+
+server -> client json file
+{
+	'status_code' : 1 or -1
+	'text' : '{}님을 팔로우 했습니다, 이미 팔로우 된 회원입니다. 존재하지 않는 회원입니다 등'
+}
+
+<팔로우 목록 보기>
+client -> server json file
+{
+	'function_id' : 6,
+	'user_id' : 'string'
+}
+
+server -> client json file
+{
+	'status_code' : 1,
+	'friends' : 배열
+}
+server -> client json file
+{
+	'status_code' : -1,
+	'error': String
+}
+<로그아웃>
+client -> server json file
+{
+	'function_id' : 7,
+	'user_id' : 'string'
+}
+
+server -> client json file
+{
+	'status_code' : 1 or -1
+}
