@@ -1,5 +1,5 @@
-#define _CRT_SECURE_NO_WARNINGS         // ÃÖ½Å VC++ ÄÄÆÄÀÏ ½Ã °æ°í ¹æÁö
-#define _WINSOCK_DEPRECATED_NO_WARNINGS // ÃÖ½Å VC++ ÄÄÆÄÀÏ ½Ã °æ°í ¹æÁö
+#define _CRT_SECURE_NO_WARNINGS         // ìµœì‹  VC++ ì»´íŒŒì¼ ì‹œ ê²½ê³  ë°©ì§€
+#define _WINSOCK_DEPRECATED_NO_WARNINGS // ìµœì‹  VC++ ì»´íŒŒì¼ ì‹œ ê²½ê³  ë°©ì§€
 #pragma comment(lib, "ws2_32")
 #include <WinSock2.h>
 #include <stdlib.h>
@@ -16,21 +16,21 @@
 #include <codecvt>
 #include <vector>
 
-#define SERVERIP "172.30.1.59"
-#define SERVERPORT 9132
+#define SERVERIP "..."
+#define SERVERPORT 9999
 #define BUFSIZE 1024
 using namespace rapidjson;
 using namespace std;
 
-// ´ëÈ­»óÀÚ ÇÁ·Î½ÃÀú
+// ëŒ€í™”ìƒì í”„ë¡œì‹œì €
 BOOL CALLBACK DlgProc(HWND, UINT, WPARAM, LPARAM);
 BOOL CALLBACK DlgProc2(HWND, UINT, WPARAM, LPARAM);
-// ÆíÁı ÄÁÆ®·Ñ Ãâ·Â ÇÔ¼ö
+// í¸ì§‘ ì»¨íŠ¸ë¡¤ ì¶œë ¥ í•¨ìˆ˜
 void DisplayText(char* fmt, ...);
-// ¿À·ù Ãâ·Â ÇÔ¼ö
+// ì˜¤ë¥˜ ì¶œë ¥ í•¨ìˆ˜
 void err_quit(char* rec);
 void err_display(char* rec);
-// ¼ÒÄÏ Åë½Å ½º·¹µå ÇÔ¼ö
+// ì†Œì¼“ í†µì‹  ìŠ¤ë ˆë“œ í•¨ìˆ˜
 DWORD WINAPI ClientMain(LPVOID arg);
 
 void Update();
@@ -42,19 +42,19 @@ string Create_Account();
 string User_Login();
 void Setting(HWND hDlg);
 
-SOCKET sock; // ¼ÒÄÏ
-char txt_id[BUFSIZE + 1]; // ID ÀÔ·Â¿ë ¼Û¼ö½Å ¹öÆÛ
-char txt_pw[BUFSIZE + 1]; // PW ÀÔ·Â¿ë ¼Û¼ö½Å ¹öÆÛ
-char txt_feed[BUFSIZE + 1]; // µ¥ÀÌÅÍ ¼Û¼ö½Å ¹öÆÛ
-char buf[BUFSIZE + 1]; // µ¥ÀÌÅÍ ¼Û¼ö½Å ¹öÆÛ
+SOCKET sock; // ì†Œì¼“
+char txt_id[BUFSIZE + 1]; // ID ì…ë ¥ìš© ì†¡ìˆ˜ì‹  ë²„í¼
+char txt_pw[BUFSIZE + 1]; // PW ì…ë ¥ìš© ì†¡ìˆ˜ì‹  ë²„í¼
+char txt_feed[BUFSIZE + 1]; // ë°ì´í„° ì†¡ìˆ˜ì‹  ë²„í¼
+char buf[BUFSIZE + 1]; // ë°ì´í„° ì†¡ìˆ˜ì‹  ë²„í¼
 char rec[BUFSIZE];
-HANDLE hReadEvent, hWriteEvent; // ÀÌº¥Æ®
-HWND hSendButton, hCreateButton, hLoginButton; // º¸³»±â ¹öÆ°, °èÁ¤»ı¼º¹öÆ°
-HWND hUpdateButton, hUploadButton, hFollowButton, // ¾÷µ¥ÀÌÆ®, ¾÷·Îµå, ÆÈ·Î¿ì¹öÆ°
-hRecommendButton, hLogoutButton; // Ä£±¸ÃßÃµ¹öÆ°, ·Î±×¾Æ¿ô¹öÆ°
-HWND hEdit1; // ´ÙÀÌ¾ó·Î±× 1ÀÇ ÆíÁı ÄÁÆ®·Ñ
-HWND hID, hPWD; // ´ÙÀÌ¾ó·Î±× 1ÀÇ ÆíÁı ÄÁÆ®·Ñ
-HWND hEdit3, hEdit4; // ´ÙÀÌ¾ó·Î±× 2ÀÇ ÆíÁı ÄÁÆ®·Ñ
+HANDLE hReadEvent, hWriteEvent; // ì´ë²¤íŠ¸
+HWND hSendButton, hCreateButton, hLoginButton; // ë³´ë‚´ê¸° ë²„íŠ¼, ê³„ì •ìƒì„±ë²„íŠ¼
+HWND hUpdateButton, hUploadButton, hFollowButton, // ì—…ë°ì´íŠ¸, ì—…ë¡œë“œ, íŒ”ë¡œìš°ë²„íŠ¼
+hRecommendButton, hLogoutButton; // ì¹œêµ¬ì¶”ì²œë²„íŠ¼, ë¡œê·¸ì•„ì›ƒë²„íŠ¼
+HWND hEdit1; // ë‹¤ì´ì–¼ë¡œê·¸ 1ì˜ í¸ì§‘ ì»¨íŠ¸ë¡¤
+HWND hID, hPWD; // ë‹¤ì´ì–¼ë¡œê·¸ 1ì˜ í¸ì§‘ ì»¨íŠ¸ë¡¤
+HWND hEdit3, hEdit4; // ë‹¤ì´ì–¼ë¡œê·¸ 2ì˜ í¸ì§‘ ì»¨íŠ¸ë¡¤
 
 int firstFlag = 1;
 int status_code = 0;
@@ -73,31 +73,31 @@ int len;
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     LPSTR lpCmdLine, int nCmdShow)
 {
-    // ÀÌº¥Æ® »ı¼º
+    // ì´ë²¤íŠ¸ ìƒì„±
     hReadEvent = CreateEvent(NULL, FALSE, TRUE, NULL);
     if (hReadEvent == NULL) return 1;
     hWriteEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
     if (hWriteEvent == NULL) return 1;
 
-    // ¼ÒÄÏ Åë½Å ½º·¹µå »ı¼º
+    // ì†Œì¼“ í†µì‹  ìŠ¤ë ˆë“œ ìƒì„±
     CreateThread(NULL, 0, ClientMain, NULL, 0, NULL);
 
-    // ´ëÈ­»óÀÚ »ı¼º
+    // ëŒ€í™”ìƒì ìƒì„±
     DialogBox(hInstance, MAKEINTRESOURCE(IDD_DIALOG1), NULL, DlgProc);
 
-    // ÀÌº¥Æ® Á¦°Å
+    // ì´ë²¤íŠ¸ ì œê±°
     CloseHandle(hReadEvent);
     CloseHandle(hWriteEvent);
 
     // closesocket()
     closesocket(sock);
 
-    // À©¼Ó Á¾·á
+    // ìœˆì† ì¢…ë£Œ
     WSACleanup();
     return 0;
 }
 
-// ´ëÈ­»óÀÚ1 ÇÁ·Î½ÃÀú
+// ëŒ€í™”ìƒì1 í”„ë¡œì‹œì €
 BOOL CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg) {
@@ -126,7 +126,7 @@ BOOL CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     }
     return FALSE;
 }
-// ´ëÈ­»óÀÚ2 ÇÁ·Î½ÃÀú
+// ëŒ€í™”ìƒì2 í”„ë¡œì‹œì €
 BOOL CALLBACK DlgProc2(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg) {
@@ -164,7 +164,7 @@ BOOL CALLBACK DlgProc2(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
             User_Logout();
             status_code = 0;
             firstFlag = 3;
-            DisplayText("·Î±×¾Æ¿ô\n");
+            DisplayText("ë¡œê·¸ì•„ì›ƒ\n");
             EnableWindow(hCreateButton, TRUE);
             EnableWindow(hLoginButton, TRUE);
             EndDialog(hDlg, IDCANCEL);        
@@ -175,7 +175,7 @@ BOOL CALLBACK DlgProc2(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
     return FALSE;
 }
 
-// ÆíÁı ÄÁÆ®·Ñ Ãâ·Â ÇÔ¼ö
+// í¸ì§‘ ì»¨íŠ¸ë¡¤ ì¶œë ¥ í•¨ìˆ˜
 void DisplayText(char* fmt, ...)
 {
     va_list arg;
@@ -192,7 +192,7 @@ void DisplayText(char* fmt, ...)
     va_end(arg);
 }
 
-// ¼ÒÄÏ ÇÔ¼ö ¿À·ù Ãâ·Â ÈÄ Á¾·á
+// ì†Œì¼“ í•¨ìˆ˜ ì˜¤ë¥˜ ì¶œë ¥ í›„ ì¢…ë£Œ
 void err_quit(char* rec)
 {
     LPVOID lpMsgBuf;
@@ -206,7 +206,7 @@ void err_quit(char* rec)
     exit(1);
 }
 
-// ¼ÒÄÏ ÇÔ¼ö ¿À·ù Ãâ·Â
+// ì†Œì¼“ í•¨ìˆ˜ ì˜¤ë¥˜ ì¶œë ¥
 void err_display(char* rec)
 {
     LPVOID lpMsgBuf;
@@ -219,12 +219,12 @@ void err_display(char* rec)
     LocalFree(lpMsgBuf);
 }
 
-// TCP Å¬¶óÀÌ¾ğÆ® ½ÃÀÛ ºÎºĞ
+// TCP í´ë¼ì´ì–¸íŠ¸ ì‹œì‘ ë¶€ë¶„
 DWORD WINAPI ClientMain(LPVOID arg)
 {
     int retval;
 
-    // À©¼Ó ÃÊ±âÈ­
+    // ìœˆì† ì´ˆê¸°í™”
     WSADATA wsa;
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
         return 1;
@@ -242,11 +242,11 @@ DWORD WINAPI ClientMain(LPVOID arg)
     retval = connect(sock, (SOCKADDR*)&serveraddr, sizeof(serveraddr));
     if (retval == SOCKET_ERROR) err_quit("connect()");
 
-    // ¼­¹ö¿Í µ¥ÀÌÅÍ Åë½Å
+    // ì„œë²„ì™€ ë°ì´í„° í†µì‹ 
     while (1) {
 
         memset(rec, 0, sizeof(rec));
-        WaitForSingleObject(hWriteEvent, INFINITE); // ¾²±â ¿Ï·á ±â´Ù¸®±â
+        WaitForSingleObject(hWriteEvent, INFINITE); // ì“°ê¸° ì™„ë£Œ ê¸°ë‹¤ë¦¬ê¸°
 
         Document d;
         StringBuffer buffer;
@@ -255,7 +255,7 @@ DWORD WINAPI ClientMain(LPVOID arg)
         string a;
 
         if (strlen(txt_id) == 0 || strlen(txt_pw) == 0) {
-            SetEvent(hReadEvent); // ÀĞ±â ¿Ï·á ¾Ë¸®±â
+            SetEvent(hReadEvent); // ì½ê¸° ì™„ë£Œ ì•Œë¦¬ê¸°
             continue;
         }
 
@@ -269,15 +269,15 @@ DWORD WINAPI ClientMain(LPVOID arg)
         d.Accept(writer);
         output = buffer.GetString();
 
-        // µ¥ÀÌÅÍ º¸³»±â
+        // ë°ì´í„° ë³´ë‚´ê¸°
         retval = send(sock, output, strlen(output), 0);
         if (retval == SOCKET_ERROR) {
             err_display("send()");
             break;
         }
 
-        // µ¥ÀÌÅÍ ¹Ş±â
-        if (recv(sock, rec, BUFSIZE, 0) == SOCKET_ERROR) {   // ¿¡·¯ ÄÜ¼Ö Ãâ·Â
+        // ë°ì´í„° ë°›ê¸°
+        if (recv(sock, rec, BUFSIZE, 0) == SOCKET_ERROR) {   // ì—ëŸ¬ ì½˜ì†” ì¶œë ¥
             cout << "error" << endl;
             break;
         }
@@ -287,33 +287,33 @@ DWORD WINAPI ClientMain(LPVOID arg)
         SetWindowText(hEdit1, 0);
         if (firstFlag == 1) {
             if (d["status_code"].GetInt() == 1)
-                DisplayText("È¸¿ø°¡ÀÔ ¼º°ø\n");
+                DisplayText("íšŒì›ê°€ì… ì„±ê³µ\n");
             else if (d["status_code"].GetInt() != 1)
-                DisplayText("È¸¿ø°¡ÀÔ ½ÇÆĞ\n");
+                DisplayText("íšŒì›ê°€ì… ì‹¤íŒ¨\n");
         }
         else if (firstFlag == 2) {
             if (d["status_code"].GetInt() == 1) {
-                DisplayText("·Î±×ÀÎ ¼º°ø\n");
+                DisplayText("ë¡œê·¸ì¸ ì„±ê³µ\n");
                 EnableWindow(hCreateButton, FALSE);
                 EnableWindow(hLoginButton, FALSE);
                 status_code = 1;
                 DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_DIALOG2), NULL, DlgProc2);
             }
             else
-                DisplayText("·Î±×ÀÎ ½ÇÆĞ\n");
+                DisplayText("ë¡œê·¸ì¸ ì‹¤íŒ¨\n");
         }
         EnableWindow(hCreateButton, TRUE);
         EnableWindow(hLoginButton, TRUE);
 
-        SetEvent(hReadEvent); // ÀĞ±â ¿Ï·á ¾Ë¸®±â
+        SetEvent(hReadEvent); // ì½ê¸° ì™„ë£Œ ì•Œë¦¬ê¸°
     }
     return 0;
 }
 void Setting(HWND hDlg) {
-    WaitForSingleObject(hReadEvent, INFINITE); // ÀĞ±â ¿Ï·á ±â´Ù¸®±â
+    WaitForSingleObject(hReadEvent, INFINITE); // ì½ê¸° ì™„ë£Œ ê¸°ë‹¤ë¦¬ê¸°
     GetDlgItemText(hDlg, IDC_EDIT2, txt_id, BUFSIZE + 1);
     GetDlgItemText(hDlg, IDC_EDIT3, txt_pw, BUFSIZE + 1);
-    SetEvent(hWriteEvent); // ¾²±â ¿Ï·á ¾Ë¸®±â
+    SetEvent(hWriteEvent); // ì“°ê¸° ì™„ë£Œ ì•Œë¦¬ê¸°
     SetFocus(hID);
     SetFocus(hPWD);
     SendMessage(hID, EM_SETSEL, 0, -1);
@@ -350,12 +350,12 @@ void Update() {
     d.Accept(writer);
     output = buffer.GetString();
 
-    // µ¥ÀÌÅÍ º¸³»±â
+    // ë°ì´í„° ë³´ë‚´ê¸°
     if (send(sock, output, strlen(output), 0) == SOCKET_ERROR) {
         err_display("send()");
         return;
     }
-    if (recv(sock, rec, BUFSIZE, 0) == SOCKET_ERROR) {   // ¿¡·¯ ÄÜ¼Ö Ãâ·Â
+    if (recv(sock, rec, BUFSIZE, 0) == SOCKET_ERROR) {   // ì—ëŸ¬ ì½˜ì†” ì¶œë ¥
         cout << "error" << endl;
         return;
     }
@@ -383,7 +383,7 @@ void Update() {
         }
     }
     else
-        DisplayText("ÀÚ½Å È¤Àº Ä£±¸°¡ ÀÛ¼ºÇÑ ±ÛÀÌ ¾ø½À´Ï´Ù\n");
+        DisplayText("ìì‹  í˜¹ì€ ì¹œêµ¬ê°€ ì‘ì„±í•œ ê¸€ì´ ì—†ìŠµë‹ˆë‹¤\n");
     text.clear();
     writers.clear();
 }
@@ -391,10 +391,10 @@ void Upload(HWND hDlg) {
     buffer.Clear();
     Writer<StringBuffer> writer(buffer);
     GetDlgItemText(hDlg, IDC_EDIT2, txt_feed, BUFSIZE + 1);
-    SetEvent(hWriteEvent); // ¾²±â ¿Ï·á ¾Ë¸®±â
+    SetEvent(hWriteEvent); // ì“°ê¸° ì™„ë£Œ ì•Œë¦¬ê¸°
     SetFocus(hEdit4);
     if (strlen(txt_feed) == 0) {
-        SetEvent(hReadEvent); // ÀĞ±â ¿Ï·á ¾Ë¸®±â
+        SetEvent(hReadEvent); // ì½ê¸° ì™„ë£Œ ì•Œë¦¬ê¸°
         return;
     }
     string a = " { \"function_id\" : ";
@@ -406,30 +406,30 @@ void Upload(HWND hDlg) {
     d.Parse(a.c_str());
     d.Accept(writer);
     output = buffer.GetString();
-    // µ¥ÀÌÅÍ º¸³»±â
+    // ë°ì´í„° ë³´ë‚´ê¸°
     if (send(sock, output, strlen(output), 0) == SOCKET_ERROR) {
         err_display("send()");
         return;
     }
-    if (recv(sock, rec, BUFSIZE, 0) == SOCKET_ERROR) {   // ¿¡·¯ ÄÜ¼Ö Ãâ·Â
+    if (recv(sock, rec, BUFSIZE, 0) == SOCKET_ERROR) {   // ì—ëŸ¬ ì½˜ì†” ì¶œë ¥
         cout << "error" << endl;
         return;
     }
     d.Parse(rec);
     SetWindowText(hEdit3, 0);
     if (d["status_code"].GetInt() == 1)
-        DisplayText("¾÷·Îµå ¼º°ø\n");
+        DisplayText("ì—…ë¡œë“œ ì„±ê³µ\n");
     else if (d["status_code"].GetInt() != 1)
-        DisplayText("¾÷·Îµå ½ÇÆĞ\n");
+        DisplayText("ì—…ë¡œë“œ ì‹¤íŒ¨\n");
 }
 void Following(HWND hDlg) {
     buffer.Clear();
     Writer<StringBuffer> writer(buffer);
     GetDlgItemText(hDlg, IDC_EDIT2, txt_feed, BUFSIZE + 1);
-    SetEvent(hWriteEvent); // ¾²±â ¿Ï·á ¾Ë¸®±â
+    SetEvent(hWriteEvent); // ì“°ê¸° ì™„ë£Œ ì•Œë¦¬ê¸°
     SetFocus(hEdit4);
     if (strlen(txt_feed) == 0) {
-        SetEvent(hReadEvent); // ÀĞ±â ¿Ï·á ¾Ë¸®±â
+        SetEvent(hReadEvent); // ì½ê¸° ì™„ë£Œ ì•Œë¦¬ê¸°
         return;
     }
     string a = " { \"function_id\" : ";
@@ -441,12 +441,12 @@ void Following(HWND hDlg) {
     d.Parse(a.c_str());
     d.Accept(writer);
     output = buffer.GetString();
-    // µ¥ÀÌÅÍ º¸³»±â
+    // ë°ì´í„° ë³´ë‚´ê¸°
     if (send(sock, output, strlen(output), 0) == SOCKET_ERROR) {
         err_display("send()");
         return;
     }
-    if (recv(sock, rec, BUFSIZE, 0) == SOCKET_ERROR) {   // ¿¡·¯ ÄÜ¼Ö Ãâ·Â
+    if (recv(sock, rec, BUFSIZE, 0) == SOCKET_ERROR) {   // ì—ëŸ¬ ì½˜ì†” ì¶œë ¥
         cout << "error" << endl;
         return;
     }
@@ -471,19 +471,19 @@ void Friendlist(HWND hDlg) {
     d.Parse(a.c_str());
     d.Accept(writer);
     output = buffer.GetString();
-    // µ¥ÀÌÅÍ º¸³»±â
+    // ë°ì´í„° ë³´ë‚´ê¸°
     if (send(sock, output, strlen(output), 0) == SOCKET_ERROR) {
         err_display("send()");
         return;
     }
-    if (recv(sock, rec, BUFSIZE, 0) == SOCKET_ERROR) {   // ¿¡·¯ ÄÜ¼Ö Ãâ·Â
+    if (recv(sock, rec, BUFSIZE, 0) == SOCKET_ERROR) {   // ì—ëŸ¬ ì½˜ì†” ì¶œë ¥
         cout << "error" << endl;
         return;
     }
     d.Parse(rec);
     SetWindowText(hEdit3, 0);
     if (d["status_code"].GetInt() == 1) {
-        DisplayText("\nÆÈ·Î¿ì ¸®½ºÆ® : \n");
+        DisplayText("\níŒ”ë¡œìš° ë¦¬ìŠ¤íŠ¸ : \n");
         for (Value::ConstValueIterator itr = d["friends"].Begin(); itr != d["friends"].End(); ++itr) {
             DisplayText("%s \n", itr->GetString());
         }
@@ -509,7 +509,7 @@ void User_Logout() {
     d.Parse(a.c_str());
     d.Accept(writer);
     output = buffer.GetString();
-    // µ¥ÀÌÅÍ º¸³»±â
+    // ë°ì´í„° ë³´ë‚´ê¸°
     if (send(sock, output, strlen(output), 0) == SOCKET_ERROR) {
         err_display("send()");
         return;
